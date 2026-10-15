@@ -1,4 +1,3 @@
-
 import json
 import os
 import re
@@ -8,10 +7,17 @@ from pathlib import Path
 import requests
 from playwright.sync_api import sync_playwright
 
-URL = "https://kbw-personal-services.butlerapp2.de/demo#/courses?fcourses=yaounde_deutsch_b2"
+URL = "https://kbw-personal-services.butlerapp2.de/demo#/bookcart"
 NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "")
 BASELINE = Path("baseline.json")
 DATE_RE = re.compile(r"\d{2}\.\d{2}\.\d{4}")
+
+TEXTES = [
+    re.compile(r"Veranstaltung.{0,20}(auswählen|wählen)", re.I),
+    re.compile(r"(auswählen|wählen)", re.I),
+    re.compile(r"Sélectionnez un événement", re.I),
+    re.compile(r"Select an event", re.I),
+]
 
 JS_STATE = """
 el => {
@@ -37,11 +43,41 @@ def notify(msg):
                   timeout=15)
 
 
+def dates_visibles(page):
+    return page.get_by_text(DATE_RE).count()
+
+
+def ouvrir_liste(page):
+    for motif in TEXTES:
+        try:
+            page.get_by_text(motif).last.click(timeout=4000)
+            page.wait_for_timeout(1000)
+            if dates_visibles(page):
+                return True
+        except Exception:
+            pass
+    menus = page.locator("select, [role=combobox], [class*=select]")
+    for i in range(menus.count()):
+        try:
+            menus.nth(i).click(timeout=3000)
+            page.wait_for_timeout(1000)
+            if dates_visibles(page):
+                return True
+        except Exception:
+            pass
+    return False
+
+
 def snapshot(page):
     page.goto(URL, wait_until="networkidle")
-    page.wait_for_timeout(2000)
-    page.get_by_text("Sélectionnez un événement").first.click()
-    page.wait_for_timeout(1000)
+    page.wait_for_timeout(3000)
+    if not dates_visibles(page) and not ouvrir_liste(page):
+        page.screenshot(path="page.png", full_page=True)
+        texte = page.inner_text("body")
+        Path("page.txt").write_text(texte)
+        print("TEXTE VU PAR LE SCRIPT :")
+        print(texte[:2000])
+        raise RuntimeError("Liste des dates introuvable")
     items = page.get_by_text(DATE_RE)
     result = {}
     for i in range(items.count()):
@@ -55,7 +91,7 @@ def main():
     debug = len(sys.argv) > 1 and sys.argv[1] == "debug"
     with sync_playwright() as p:
         browser = p.chromium.launch()
-        page = browser.new_page()
+        page = browser.new_page(locale="de-DE")
         state = snapshot(page)
         browser.close()
 

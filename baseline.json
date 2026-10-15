@@ -1,5 +1,14 @@
 {
- "16.10.2026": "fromToAuto||false|rgb(255, 255, 255)|1|auto > sc-llJcti kgupdq ws-search-select-option ws-search-select-option-disabled||false|rgb(255, 255, 255)|0.7|auto > sc-cxabCf jHsJEM||false|rgb(255, 255, 255)|1|auto",
- "26.10.2026": "fromToAuto||false|rgb(255, 255, 255)|1|auto > sc-llJcti kgupdq ws-search-select-option ws-search-select-option-disabled||false|rgb(255, 255, 255)|0.7|auto > sc-cxabCf jHsJEM||false|rgb(255, 255, 255)|1|auto",
- "27.10.2026": "fromToAuto||false|rgb(255, 255, 255)|1|auto > sc-llJcti kgupdq ws-search-select-option ws-search-select-option-disabled||false|rgb(255, 255, 255)|0.7|auto > sc-cxabCf jHsJEM||false|rgb(255, 255, 255)|1|auto"
+ "liste": {
+  "16.10.2026": "fromToAuto||false|rgb(255, 255, 255)|1|auto > sc-llJcti kgupdq ws-search-select-option ws-search-select-option-disabled||false|rgb(255, 255, 255)|0.7|auto > sc-cxabCf jHsJEM||false|rgb(255, 255, 255)|1|auto",
+  "26.10.2026": "fromToAuto||false|rgb(255, 255, 255)|1|auto > sc-llJcti kgupdq ws-search-select-option ws-search-select-option-disabled||false|rgb(255, 255, 255)|0.7|auto > sc-cxabCf jHsJEM||false|rgb(255, 255, 255)|1|auto",
+  "27.10.2026": "fromToAuto||false|rgb(255, 255, 255)|1|auto > sc-llJcti kgupdq ws-search-select-option ws-search-select-option-disabled||false|rgb(255, 255, 255)|0.7|auto > sc-cxabCf jHsJEM||false|rgb(255, 255, 255)|1|auto"
+ },
+ "cours": [
+  "1|",
+  "2|",
+  "Kursverwaltung von Butlerapp|",
+  "deutschpruefung@kbw-gruppe.de|mailto:deutschpruefung@kbw-gruppe.de",
+  "|tel:"
+ ]
 }
